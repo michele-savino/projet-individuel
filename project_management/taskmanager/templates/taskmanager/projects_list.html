@@ -8,7 +8,7 @@
 
 <ul>
     {% for project in user_projects %}
-        <li><a>{{ project.name }}</a></li>
+        <li><a href="{% url 'project' project.id %}">{{ project.name }}</a></li>
     {% empty %}
         <li>You are not involved in any project.</li>
     {% endfor %}

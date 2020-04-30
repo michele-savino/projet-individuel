@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ project }}</title>
+</head>
+<body>
+
+<table>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.name }}</td>
+            <td>{{ task.assignee }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.start_date }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.priority }}</td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="6">No tasks.</td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
