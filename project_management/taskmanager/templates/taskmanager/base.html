@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fas-task {% block title %}{% endblock %}</title> {% comment %}#a rapid tool to manage your projects{% endcomment %}
+
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+</head>
+
+<body>
+
+<header>Fas-task</header>
+
+<section id="content">
+    {% block content %}{% endblock %}
+</section>
+
+<footer>&copy; 2020 ISAE-SUPAERO</footer>
+
+</body>
+</html>
