@@ -1,0 +1,26 @@
+{% extends "taskmanager/base.html" %}
+
+{% block title %}- {{ task.name }}{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <td>{{ task.name }}</td>
+            <td>{{ task.assignee }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.start_date }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.priority }}</td>
+        </tr>
+    </table>
+
+    <table>
+        {% for journal  in journals %}
+            <tr>
+                <td>{{ journal.entry }}</td>
+                <td>{{ journal.author }}</td>
+                <td>{{ journal.date }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

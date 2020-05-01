@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ project }}</title>
-</head>
-<body>
+{% extends "taskmanager/base.html" %}
 
-<table>
+{% block title %}- {{ project }}{% endblock %}
+
+{% block content %}
+    <table>
     {% for task in tasks %}
         <tr>
-            <td>{{ task.name }}</td>
+            <td><a href="{% url 'task' task.id %}"> {{ task.name }}</a></td>
             <td>{{ task.assignee }}</td>
             <td>{{ task.status }}</td>
             <td>{{ task.start_date }}</td>
@@ -22,6 +19,4 @@
         </tr>
     {% endfor %}
 </table>
-
-</body>
-</html>
+{% endblock %}
