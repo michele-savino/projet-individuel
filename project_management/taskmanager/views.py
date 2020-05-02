@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import JournalForm, NewTaskForm
+from .forms import JournalForm, TaskForm
 from .models import Project, Task, Journal, Status
 
 
@@ -45,7 +45,7 @@ def new_journal(request, project_id, task_id):
 
 @login_required()
 def new_task(request, project_id):
-    form = NewTaskForm(request.POST or None)
+    form = TaskForm(request.POST or None)
     if form.is_valid():
         task = form.save(commit=False)
         task.project = Project.objects.get(id=project_id)
@@ -53,4 +53,15 @@ def new_task(request, project_id):
         task.save()
         return redirect(show_task, project_id=project_id, task_id=task.id)
 
-    return render(request, 'taskmanager/new_task.html', locals())
+    return render(request, 'taskmanager/edit_task.html', locals())
+
+
+@login_required()
+def edit_task(request, project_id, task_id):
+    edit = True
+    form = TaskForm(request.POST or None, instance=Task.objects.get(id=task_id))
+    if form.is_valid():
+        task = form.save()
+        return redirect(show_task, project_id=project_id, task_id=task.id)
+
+    return render(request, 'taskmanager/edit_task.html', locals())

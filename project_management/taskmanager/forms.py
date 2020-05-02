@@ -9,7 +9,7 @@ class JournalForm(forms.ModelForm):
         fields = ['entry']
 
 
-class NewTaskForm(forms.ModelForm):
+class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["name", "description", "assignee", "start_date", "due_date", "priority"]
+        fields = ["name", "description", "assignee", "start_date", "due_date", "priority", "status"]

@@ -3,6 +3,11 @@
 {% block title %}- New task{% endblock %}
 
 {% block content %}
+
+    {% if edit %}
+        <p>Edit this task</p>
+    {% endif %}
+
     <form method="post" action="{% url 'new_task' project_id %}">
         {% csrf_token %}
         {{ form.as_p }}

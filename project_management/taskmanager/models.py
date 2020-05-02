@@ -5,7 +5,7 @@ from django.utils import timezone
 
 
 ## aggiustare gli attributi dei caratteri in funzione del risultato finale
-#negli attributi data timezone.now non va bene perchè non tiene in conto dei fusi
+# negli attributi data timezone.now non va bene perchè non tiene in conto dei fusi
 # AGGIUNGERE SLUUUUUG
 
 class Project(models.Model):
@@ -25,8 +25,13 @@ class Status(models.Model):
     def __str__(self):
         return self.name
 
+
+DEFAULT_STATUS_ID = 1
+DEFAULT_PRIORITY = 1
+
+
 class Task(models.Model):
-    #fare in modo che solo i membri del progetto possano essere assegnati al task e non tutti
+    # fare in modo che solo i membri del progetto possano essere assegnati al task e non tutti
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
@@ -34,8 +39,8 @@ class Task(models.Model):
     assignee = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateTimeField(default=timezone.now)
     due_date = models.DateTimeField(default=timezone.now)
-    priority = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
-    status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    priority = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], default=DEFAULT_PRIORITY)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=DEFAULT_STATUS_ID)
 
     def __str__(self):
         return self.name
