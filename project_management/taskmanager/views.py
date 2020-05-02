@@ -23,6 +23,8 @@ def show_project(request, project_id):
     return render(request, 'taskmanager/project.html', locals())
 
 
+#risolvere il bug che mi farebbe richiedere anche una task non associata a quel progetto
+
 @login_required()
 def show_task(request, project_id, task_id):
     task = get_object_or_404(Task, id=task_id)
@@ -46,6 +48,8 @@ def new_journal(request, project_id, task_id):
 @login_required()
 def new_task(request, project_id):
     form = TaskForm(request.POST or None)
+    project = Project.objects.get(id=project_id)
+    form.fields['assignee'].queryset = project.members
     if form.is_valid():
         task = form.save(commit=False)
         task.project = Project.objects.get(id=project_id)
@@ -60,6 +64,8 @@ def new_task(request, project_id):
 def edit_task(request, project_id, task_id):
     edit = True
     form = TaskForm(request.POST or None, instance=Task.objects.get(id=task_id))
+    project = Project.objects.get(id=project_id)
+    form.fields['assignee'].queryset = project.members
     if form.is_valid():
         task = form.save()
         return redirect(show_task, project_id=project_id, task_id=task.id)
