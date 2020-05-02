@@ -24,7 +24,7 @@
         {% endfor %}
     </table>
 
-    <form method="post" action="{% url "new_journal" task.id %}">
+    <form method="post" action="{% url "new_journal" project_id=project_id task_id=task_id %}">
         {% csrf_token %}
         <label for="entry">New journal: </label>
         <input id="entry" type="text" name="entry">

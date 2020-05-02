@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import JournalForm
-from .models import Project, Task, Journal
+from .forms import JournalForm, NewTaskForm
+from .models import Project, Task, Journal, Status
 
 
 # limitare accesso alle pagine show_project e show_task
@@ -25,14 +24,14 @@ def show_project(request, project_id):
 
 
 @login_required()
-def show_task(request, task_id):
+def show_task(request, project_id, task_id):
     task = get_object_or_404(Task, id=task_id)
     journals = task.journal_set.all()
     return render(request, 'taskmanager/task.html', locals())
 
 
 @login_required()
-def add_journal(request, task_id):
+def new_journal(request, project_id, task_id):
     form = JournalForm(request.POST or None)
     if form.is_valid():
         journal = Journal()
@@ -41,4 +40,17 @@ def add_journal(request, task_id):
         journal.author = request.user
         journal.save()
 
-    return redirect(show_task, task_id=task_id)
+    return redirect(show_task, project_id=project_id, task_id=task_id)
+
+
+@login_required()
+def new_task(request, project_id):
+    form = NewTaskForm(request.POST or None)
+    if form.is_valid():
+        task = form.save(commit=False)
+        task.project = Project.objects.get(id=project_id)
+        task.status = Status.objects.get(name="New")
+        task.save()
+        return redirect(show_task, project_id=project_id, task_id=task.id)
+
+    return render(request, 'taskmanager/new_task.html', locals())
