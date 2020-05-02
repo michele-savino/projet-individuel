@@ -23,4 +23,11 @@
             </tr>
         {% endfor %}
     </table>
+
+    <form method="post" action="{% url "new_journal" task.id %}">
+        {% csrf_token %}
+        <label for="entry">New journal: </label>
+        <input id="entry" type="text" name="entry">
+        <input type="submit" value="Save">
+    </form>
 {% endblock %}
