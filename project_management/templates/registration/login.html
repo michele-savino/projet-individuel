@@ -3,28 +3,26 @@
 
 {% block title %}- Login{% endblock %}
 
+
 {% block content %}
+    {% comment %}
     {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
+        <h3>Your username and password didn't match. Please try again.</h3>
     {% endif %}
+    {% endcomment %}
 
-    {% comment %}{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
+    {% if not user.is_authenticated %}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-primary" value="Login">
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+        <div class="mt-3"><a href="{% url 'password_reset' %}">Forgot password?</a></div>
     {% else %}
-    <p>Please login to see this page.</p>
+        <h3>Welcome again, {% if user.name %} {{ user.name }}{% else %}
+            {{ user }}{% endif %} </h3>
     {% endif %}
-{% endif %}{% endcomment %}
-
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" class="btn btn-primary" value="Login">
-        <input type="hidden" name="next" value="{{ next }}">
-    </form>
-
-    <div class="mt-3"><a href="{% url 'password_reset' %}">Forgot password?</a></div>
 
 
 

@@ -3,31 +3,39 @@
 {% block title %}- {{ project }}{% endblock %}
 
 {% block content %}
+    <div class="container bg-light p-2 mb-2 ">
+        <a href="{% url 'projects_list' %}"><h5>Projects </h5></a>
+    </div>
+
+    <h3 class="border-bot">{{ project }}</h3>
     <table class="table table-hover">
-        <thead>
+        <thead class="mythead">
         <td>Task</td>
         <td>Assigned to</td>
         <td>Start date</td>
         <td>Due date</td>
         <td>Priority</td>
         </thead>
-    <tbody>
         {% for task in tasks %}
+            <tbody>
             <tr>
                 <td><a href="{% url 'task' project_id=project.id task_id=task.id %}"> {{ task.name }}</a></td>
-                <td>{{ task.assignee }}</td>
-                <td>{{ task.start_date }}</td>
-                <td>{{ task.due_date }}</td>
+                <td><h5><span class="badge badge-primary">{{ task.assignee }}</span></h5></td>
+                <td>{{ task.start_date|date:"DATE_FORMAT" }}</td>
+                <td>{{ task.due_date|date:"DATE_FORMAT" }}</td>
                 <td>{{ task.priority }}</td>
+                <td><a href="{% url 'edit_task' project_id task.id %}"><ion-icon name="create"></ion-icon></a></td>
             </tr>
+            </tbody>
         {% empty %}
+            <tbody>
             <tr>
-                <td colspan="5">No tasks.</td>
+                <td colspan="6" class="text-center">Add the first task to this project</td>
             </tr>
             </tbody>
         {% endfor %}
     </table>
+    <div class="text-center"><a class="btn btn-primary" href="{% url 'new_task' project_id %}">Add a task</a></div>
 
-    <a href="{% url 'new_task' project_id %}">Add a task</a>
 
 {% endblock %}

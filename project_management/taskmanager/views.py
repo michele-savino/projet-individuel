@@ -18,7 +18,7 @@ def projects_list(request):
 @login_required()
 def show_project(request, project_id):
     project = get_object_or_404(Project, id=project_id)
-    tasks = project.task_set.all()
+    tasks = project.task_set.all().order_by('start_date', '-priority')
 
     return render(request, 'taskmanager/project.html', locals())
 
@@ -29,7 +29,7 @@ def show_project(request, project_id):
 @login_required()
 def show_task(request, project_id, task_id):
     task = get_object_or_404(Task, id=task_id)
-    journals = task.journal_set.all()
+    journals = task.journal_set.all().order_by('date')
     return render(request, 'taskmanager/task.html', locals())
 
 
@@ -60,6 +60,7 @@ def new_task(request, project_id):
 
     return render(request, 'taskmanager/edit_task.html', locals())
 
+# risolvere il fatto che il form salva un nuovo task anziché modificare il vecchio
 
 @login_required()
 def edit_task(request, project_id, task_id):
@@ -68,7 +69,7 @@ def edit_task(request, project_id, task_id):
     project = Project.objects.get(id=project_id)
     form.fields['assignee'].queryset = project.members
     if form.is_valid():
-        task = form.save()
-        return redirect(show_task, project_id=project_id, task_id=task.id)
+        form.save()
+        return redirect(show_task, project_id=project_id, task_id=task_id)
 
     return render(request, 'taskmanager/edit_task.html', locals())

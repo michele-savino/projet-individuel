@@ -36,9 +36,9 @@ class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    assignee = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateTimeField(default=timezone.now)
-    due_date = models.DateTimeField(default=timezone.now)
+    assignee = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Assigned to")
+    start_date = models.DateField(default=timezone.now)
+    due_date = models.DateField(default=timezone.now)
     priority = models.SmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], default=DEFAULT_PRIORITY)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, default=DEFAULT_STATUS_ID)
 

@@ -1,0 +1,11 @@
+thead.mythead {
+    font-weight: bold;
+}
+
+.asteriskField {
+    display: none;
+}
+
+table.mytable td:first-child{
+    font-weight: bold;
+}

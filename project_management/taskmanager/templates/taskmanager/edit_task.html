@@ -1,16 +1,39 @@
 {% extends "taskmanager/base.html" %}
+{% load crispy_forms_filters %}
 
 {% block title %}- New task{% endblock %}
 
 {% block content %}
-
+    <h3 class="border-bot">{{ project }}</h3>
     {% if edit %}
-        <p>Edit this task</p>
+        <h4>Edit this task</h4>
+    {% else %}
+        <h4>Add a new task</h4>
     {% endif %}
 
     <form method="post" action="{% url 'new_task' project_id %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save">
+        {{ form.name|as_crispy_field }}
+        <div class="form-row">
+            <div class="form-group col-md-8 mb-0">
+                {{ form.assignee|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-1 mb-0">
+                {{ form.priority|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ form.status|as_crispy_field }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+                {{ form.start_date|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                {{ form.due_date|as_crispy_field }}
+            </div>
+        </div>
+        {{ form.description|as_crispy_field }}
+        <input type="submit" class="btn btn-success" value="Save">
     </form>
 {% endblock %}

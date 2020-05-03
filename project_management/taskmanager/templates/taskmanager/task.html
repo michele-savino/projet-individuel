@@ -2,34 +2,68 @@
 
 {% block title %}- {{ task.name }}{% endblock %}
 
+
 {% block content %}
-    <table class="table table-over">
-        <tr>
-            <td>{{ task.name }}</td>
-            <td>{{ task.assignee }}</td>
-            <td>{{ task.status }}</td>
-            <td>{{ task.start_date }}</td>
-            <td>{{ task.due_date }}</td>
-            <td>{{ task.priority }}</td>
-        </tr>
-    </table>
+    <div class="container bg-light p-2 mb-2 row">
+        <a class="mr-1" href="{% url 'projects_list' %}"><h6>Projects</h6></a>{% block nav %}{% endblock %}
+        <h6 class="mr-1"> / </h6>
+        <a href="{% url 'project' task.project.id %}"><h6>{{ task.project }}</h6></a>
+    </div>
 
-    <a href="{% url 'edit_task' project_id=project_id task_id=task_id %}">Edit this task</a>
+    <div>
+        <a href="{% url 'edit_task' project_id=project_id task_id=task_id %}"
+           class="d-inline float-right btn btn-primary">Edit task</a>
+        <h3>{{ task.project }}</h3>
+        <h4 class="border-bot p-2">{{ task }}</h4>
+        <p class="pd-3 shadow-sm">{{ task.description }}</p>
+    </div>
 
-    <table>
-        {% for journal  in journals %}
+    <div>
+        <table class="table table-over mytable">
+            <tbody>
             <tr>
-                <td>{{ journal.entry }}</td>
-                <td>{{ journal.author }}</td>
-                <td>{{ journal.date }}</td>
+                <td>Assigned to</td>
+                <td><h5><span class="badge badge-primary">{{ task.assignee }}</span></h5></td>
             </tr>
-        {% endfor %}
-    </table>
+            <tr>
+                <td>Start date</td>
+                <td>{{ task.start_date|date:"DATE_FORMAT" }}</td>
+            </tr>
+            <tr>
+                <td>Due date</td>
+                <td>{{ task.due_date|date:"DATE_FORMAT" }}</td>
+            </tr>
+            <tr>
+                <td>Priority</td>
+                <td>{{ task.priority }}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td><h5><span class="badge badge-info">{{ task.status }}</span></h5></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <form method="post" action="{% url "new_journal" project_id=project_id task_id=task_id %}">
-        {% csrf_token %}
-        <label for="entry">New journal: </label>
-        <input id="entry" type="text" name="entry">
-        <input type="submit" value="Save">
-    </form>
+    <div>
+        <h5>History</h5>
+        <table class="table table-over">
+            <tbody>
+            {% for journal  in journals %}
+                <tr>
+                    <td>{{ journal.entry }}</td>
+                    <td><h5><span class="badge badge-primary">{{ journal.author }}</span></h5></td>
+                    <td>{{ journal.date|date:"DATE_FORMAT" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <form class="form-inline" method="post" action="{% url "new_journal" project_id=project_id task_id=task_id %}">
+            {% csrf_token %}
+            <label class="mr-2" for="entry">New journal: </label>
+            <input class="form-control mr-3" id="entry" type="text" name="entry">
+            <input type="submit" class="btn btn-success" value="Save">
+        </form>
+    </div>
+
 {% endblock %}

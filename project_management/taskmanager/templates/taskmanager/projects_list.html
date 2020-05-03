@@ -3,13 +3,20 @@
 {% block title %}- Your projects{% endblock %}
 
 {% block content %}
-    <ul class="list-group">
+    <h3>Your projects</h3>
+
+    <div class="list-group-flush mt-4">
         {% for project in user_projects %}
-            <li class="list-group-item p-4"><a href="{% url 'project' project.id %}">{{ project.name }}</a></li>
+            <a class="list-group-item d-flex align-items-center"
+               href="{% url 'project' project.id %}">
+                <span class="mr-auto p-2">{{ project.name }}</span>
+                <span class="badge badge-primary badge-pill p-2 mr-2">{{ project.task_set.count }} task{{ project.task_set.count|pluralize}}</span>
+                <span class="badge badge-secondary badge-pill p-2">{{ project.members.count }} member{{ project.members.count|pluralize}}</span>
+            </a>
         {% empty %}
             <p>You are not involved in any project.</p>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
 
 
