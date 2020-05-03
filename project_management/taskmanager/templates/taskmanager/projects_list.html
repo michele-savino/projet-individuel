@@ -3,13 +3,14 @@
 {% block title %}- Your projects{% endblock %}
 
 {% block content %}
-    <ul>
+    <ul class="list-group">
         {% for project in user_projects %}
-            <li><a href="{% url 'project' project.id %}">{{ project.name }}</a></li>
+            <li class="list-group-item p-4"><a href="{% url 'project' project.id %}">{{ project.name }}</a></li>
         {% empty %}
-            <li>You are not involved in any project.</li>
+            <p>You are not involved in any project.</p>
         {% endfor %}
     </ul>
 {% endblock %}
+
 
 

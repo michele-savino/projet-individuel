@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import JournalForm, TaskForm
@@ -23,7 +23,8 @@ def show_project(request, project_id):
     return render(request, 'taskmanager/project.html', locals())
 
 
-#risolvere il bug che mi farebbe richiedere anche una task non associata a quel progetto
+# risolvere il bug che mi farebbe richiedere anche una task non associata a quel progetto
+#ordinare task per data
 
 @login_required()
 def show_task(request, project_id, task_id):

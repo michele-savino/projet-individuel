@@ -3,20 +3,28 @@
 {% block title %}- {{ project }}{% endblock %}
 
 {% block content %}
-    <table>
+    <table class="table table-hover">
+        <thead>
+        <td>Task</td>
+        <td>Assigned to</td>
+        <td>Start date</td>
+        <td>Due date</td>
+        <td>Priority</td>
+        </thead>
+    <tbody>
         {% for task in tasks %}
             <tr>
                 <td><a href="{% url 'task' project_id=project.id task_id=task.id %}"> {{ task.name }}</a></td>
                 <td>{{ task.assignee }}</td>
-                <td>{{ task.status }}</td>
                 <td>{{ task.start_date }}</td>
                 <td>{{ task.due_date }}</td>
                 <td>{{ task.priority }}</td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="6">No tasks.</td>
+                <td colspan="5">No tasks.</td>
             </tr>
+            </tbody>
         {% endfor %}
     </table>
 

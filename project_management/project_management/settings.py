@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'taskmanager'
+    'taskmanager',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,6 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/projects'
 
 LOGOUT_REDIRECT_URL = '/accounts/login'
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
