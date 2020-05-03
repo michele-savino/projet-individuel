@@ -62,11 +62,13 @@ def new_task(request, project_id):
 
 # risolvere il fatto che il form salva un nuovo task anziché modificare il vecchio
 
+
 @login_required()
 def edit_task(request, project_id, task_id):
-    edit = True
-    form = TaskForm(request.POST or None, instance=Task.objects.get(id=task_id))
-    project = Project.objects.get(id=project_id)
+    edit_flag = True
+    task = Task.objects.get(id=task_id)
+    form = TaskForm(request.POST or None, instance=task)
+    project = task.project
     form.fields['assignee'].queryset = project.members
     if form.is_valid():
         form.save()

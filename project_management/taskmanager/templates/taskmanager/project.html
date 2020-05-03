@@ -24,7 +24,7 @@
                 <td>{{ task.start_date|date:"DATE_FORMAT" }}</td>
                 <td>{{ task.due_date|date:"DATE_FORMAT" }}</td>
                 <td>{{ task.priority }}</td>
-                <td><a href="{% url 'edit_task' project_id task.id %}"><ion-icon name="create"></ion-icon></a></td>
+                <td><a href="{% url 'edit_task' project_id task.id %}"><ion-icon name="create" style="font-size: 24px"></ion-icon></a></td>
             </tr>
             </tbody>
         {% empty %}
