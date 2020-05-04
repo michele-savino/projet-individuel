@@ -1,72 +1,85 @@
 {% extends "taskmanager/base.html" %}
+
+{% comment %}Plugin pour afficher facilement les forms dans le style de Bootstrap 4{% endcomment %}
 {% load crispy_forms_filters %}
 
-{% block title %}- {{ task.name }}{% endblock %}
+{% block title %}- {{ task.project }} - {{ task.name }}{% endblock %}
 
-
-{% block content %}
-    <div class="container bg-light p-2 mb-2 row">
-        <a class="mr-1" href="{% url 'projects_list' %}"><h6>Projects</h6></a>{% block nav %}{% endblock %}
+{% block nav %}
+    <div class="row">
+        <a class="mr-1" href="{% url 'projects_list' %}"><h6>Projects</h6></a>
         <h6 class="mr-1"> / </h6>
         <a href="{% url 'project' task.project.id %}"><h6>{{ task.project }}</h6></a>
     </div>
+{% endblock %}
 
+{% block content %}
     <div>
-        <a href="{% url 'edit_task' task_id=task_id %}"
-           class="d-inline float-right btn btn-primary">Edit task</a>
+        {% comment %}EDIT TASK BUTTON{% endcomment %}
+        <a class="d-inline float-right btn btn-primary" href="{% url 'edit_task' task_id=task_id %}">
+            <ion-icon name="create-outline" style="font-size: 24px"></ion-icon>
+        </a>
+        {% comment %}CONTENT NAME{% endcomment %}
         <h3>{{ task.project }}</h3>
         <h4 class="border-bot p-2">{{ task }}</h4>
-        <p class="pd-3 shadow-sm">{{ task.description }}</p>
+        <p class="pd-3 shadow-sm text-justify">{{ task.description }}</p>
     </div>
 
+    {% comment %}TASK TABLE{% endcomment %}
     <div>
-        <table class="table table-over mytable">
-            <tbody>
-            <tr>
-                <td>Assigned to</td>
-                <td><h5><span class="badge badge-primary">{{ task.assignee }}</span></h5></td>
-            </tr>
-            <tr>
-                <td>Start date</td>
-                <td>{{ task.start_date|date:"DATE_FORMAT" }}</td>
-            </tr>
-            <tr>
-                <td>Due date</td>
-                <td>{{ task.due_date|date:"DATE_FORMAT" }}</td>
-            </tr>
-            <tr>
-                <td>Priority</td>
-                <td>{{ task.priority }}</td>
-            </tr>
-            <tr>
-                <td>Status</td>
-                <td><h5><span class="badge badge-info">{{ task.status }}</span></h5></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div>
-        <h5>History</h5>
         <table class="table table-over">
             <tbody>
-            {% for journal  in journals %}
-                <tr>
-                    <td>{{ journal.entry }}</td>
-                    <td><h5><span class="badge badge-primary">{{ journal.author }}</span></h5></td>
-                    <td>{{ journal.date|date:"DATETIME_FORMAT" }}</td>
-                </tr>
-            {% endfor %}
+            <tr class="d-flex">
+                <th class="col-4" scope="row">Assigned to</th>
+                <td class="col-8"><h5><span class="badge badge-primary">{{ task.assignee }}</span></h5></td>
+            </tr>
+            <tr class="d-flex">
+                <th class="col-4" scope="row">Start date</th>
+                <td class="col-8">{{ task.start_date|date:"DATE_FORMAT" }}</td>
+            </tr>
+            <tr class="d-flex">
+                <th class="col-4" scope="row">Due date</th>
+                <td class="col-8">{{ task.due_date|date:"DATE_FORMAT" }}</td>
+            </tr>
+            <tr class="d-flex">
+                <th class="col-4" scope="row">Priority</th>
+                <td class="col-8">{{ task.priority }}</td>
+            </tr>
+            <tr class="d-flex">
+                <th class="col-4" scope="row">Status</th>
+                <td class="col-8"><h5><span class="badge badge-warning">{{ task.status }}</span></h5></td>
+            </tr>
             </tbody>
         </table>
-        <form method="post" action="{% url "new_journal" task_id=task_id %}">
-            {% csrf_token %}
-            {{ form|crispy }}
-            {# meme si je pouvais controler plus facilement l'affichage autrement, j'ai voulu utiliser le tag form pour cohérence#}
-            {#            <label class="mr-2" for="entry">New journal: </label>#}
-            {#            <input class="form-control mr-3" id="entry" type="text" name="entry">#}
-            <input type="submit" class="btn btn-success" value="Save">
-        </form>
     </div>
+
+{% endblock %}
+
+{% block sub-content %}
+    {% comment %}CONTENT NAME{% endcomment %}
+    <h5>History</h5>
+
+    {% comment %}JOURNALS LIST{% endcomment %}
+    <table class="table table-over">
+        <tbody>
+        {% for journal  in journals %}
+            <tr class="d-flex">
+                <td class="col-8">{{ journal.entry }}</td>
+                <td class="col-2"><h5><span class="badge badge-primary">{{ journal.author }}</span></h5></td>
+                <td class="col-2">{{ journal.date|date:"DATETIME_FORMAT" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% comment %}JOURNAL CREATION FORM{% endcomment %}
+    <form method="post" action="{% url "new_journal" task_id=task_id %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {# meme si je pouvais controler plus facilement l'affichage autrement, j'ai voulu utiliser le tag form pour cohérence#}
+        {#            <label class="mr-2" for="entry">New journal: </label>#}
+        {#            <input class="form-control mr-3" id="entry" type="text" name="entry">#}
+        <input type="submit" class="btn btn-success" value="Save">
+    </form>
 
 {% endblock %}

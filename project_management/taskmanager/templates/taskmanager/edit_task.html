@@ -1,21 +1,26 @@
 {% extends "taskmanager/base.html" %}
+
+{% comment %}Plugin pour afficher facilement les forms dans le style de Bootstrap 4{% endcomment %}
 {% load crispy_forms_filters %}
 
 {% block title %}- New task{% endblock %}
 
 {% block content %}
+    {% comment %}CONTENT NAME{% endcomment %}
     <h3 class="border-bot">{{ project }}</h3>
-    {% if edit_flag %}
+    {% if edit_flag %}     {% comment %}Ce template peut permettre de modifier une tache ou de la mettre à jour{% endcomment %}
         <h4>Edit this task</h4>
     {% else %}
         <h4>Add a new task</h4>
     {% endif %}
 
-    <form method="post" action="
-            {% if edit_flag %}{% url 'edit_task' task_id=task_id %} {% else %} {% url 'new_task' project_id %}{% endif %}">
+    {% comment %}FORM{% endcomment %}
+    {% comment %}L'action du form dèpend de la fonction: modification ou creation{% endcomment %}
+    <form method="post" action="{% if edit_flag %}{% url 'edit_task' task_id=task_id %} {% else %} {% url 'new_task' project_id %}{% endif %}">
+        {% comment %}Tous les fieds du form sont gerer individuellement pour personalizer l'affichage{% endcomment %}
         {% csrf_token %}
-        <div><p>{{ form.errors|as_crispy_errors }}</p></div>
         {{ form.name|as_crispy_field }}
+        {% comment %}Il faut ajouter aussi field.error pour afficher les erreurs de validation qui peuvent arriver{% endcomment %}
         {{ form.name.errors|as_crispy_errors }}
         <div class="form-row">
             <div class="form-group col-md-6 mb-0">
@@ -45,4 +50,5 @@
         {{ form.description.errors|as_crispy_errors }}
         <input type="submit" class="btn btn-success" value="Save">
     </form>
+
 {% endblock %}

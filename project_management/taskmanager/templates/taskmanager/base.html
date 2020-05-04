@@ -1,48 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Fas-Task
-        {% block title %}{% endblock %}</title>
+    <title>Fas-Task {% block title %}{% endblock %}</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    {% comment %}fichier statics: favicon et mycss{% endcomment %}
     {% load static %}
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
 
+    {% comment %}Bootstrap{% endcomment %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+    {% comment %}Ion-Icons{% endcomment %}
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
 </head>
 
 <body>
+
 <div class="jumbotron">
+    {% comment %}LOGO{% endcomment %}
     <div class="text-center border-bottom pb-3">
+        {% comment %}Lien vers la view list projets{% endcomment %}
         <a id="logo" style="color:inherit;text-decoration: none;" href="{% url 'projects_list' %}">
             <h1><img src="{% static 'img/logo.png' %}" style="width:64px; height:64px;"> Fas-Task</h1>
         </a>
+        {% comment %}SUB LOGO{% endcomment %}
         <h5>A rapid and easy way to manage your projects</h5>
     </div>
 
-    {% comment %}Pour ne pas afficher cette partie dans la page de login
-    si l'utilisateur ne s'est pas encore authentifié {% endcomment %}
+    {% comment %}WELCOME and LOGOUT BUTTON{% endcomment %}
     {% if user.is_authenticated %}
+        {% comment %}Pour ne pas afficher cette partie dans la page de login si l'utilisateur
+        ne s'est pas encore authentifié {% endcomment %}
         <div class="container pt-3">
-            <h4 class="d-inline text-left">Welcome {% if user.name %} {{ user.name }}{% else %}
-                {{ user }}{% endif %} </h4>
-            <a href="{% url 'logout' %}" class="d-inline float-right btn btn-danger" >Logout</a>
+            <h4 class="d-inline text-left">Welcome {{ user.first_name|default:user }}</h4>
+            <a href="{% url 'logout' %}" class="d-inline float-right btn btn-danger">Logout</a>
         </div>
     {% endif %}
 </div>
 
+{% comment %}NAV BAR{% endcomment %}
+<div class="container bg-light p-2 mb-2 ">
+    {% block nav %}{% endblock %}
+</div>
 
+{% comment %}MAIN CONTAINER{% endcomment %}
 <div class="container">
     {% block content %}{% endblock %}
 </div>
 
+{% comment %}SUB CONTANIER{% endcomment %}
+<div class="container">
+    {% block sub-content %}{% endblock %}
+</div>
+
+{% comment %}FOOTER{% endcomment %}
 <footer class="container text-center border-top mt-5 pt-3">&copy; 2020 ISAE-SUPAERO</footer>
 
 </body>
+
 </html>
