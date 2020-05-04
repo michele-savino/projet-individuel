@@ -19,12 +19,12 @@
         {% for task in tasks %}
             <tbody>
             <tr>
-                <td><a href="{% url 'task' project_id=project.id task_id=task.id %}"> {{ task.name }}</a></td>
+                <td><a href="{% url 'task' task_id=task.id %}"> {{ task.name }}</a></td>
                 <td><h5><span class="badge badge-primary">{{ task.assignee }}</span></h5></td>
                 <td>{{ task.start_date|date:"DATE_FORMAT" }}</td>
                 <td>{{ task.due_date|date:"DATE_FORMAT" }}</td>
                 <td>{{ task.priority }}</td>
-                <td><a href="{% url 'edit_task' project_id task.id %}"><ion-icon name="create" style="font-size: 24px"></ion-icon></a></td>
+                <td><a href="{% url 'edit_task' task.id %}"><ion-icon name="create" style="font-size: 24px"></ion-icon></a></td>
             </tr>
             </tbody>
         {% empty %}

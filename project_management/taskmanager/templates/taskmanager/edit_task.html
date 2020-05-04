@@ -11,7 +11,7 @@
         <h4>Add a new task</h4>
     {% endif %}
 
-    <form method="post" action="{% if edit_flag %}{% url 'edit_task' project_id=project_id task_id=task_id%} {% else %} {% url 'new_task' project_id %}{% endif %}">
+    <form method="post" action="{% if edit_flag %}{% url 'edit_task' task_id=task_id%} {% else %} {% url 'new_task' project_id %}{% endif %}">
         {% csrf_token %}
         {{ form.name|as_crispy_field }}
         <div class="form-row">

@@ -33,7 +33,7 @@ def show_project(request, project_id):
 #ordinare task per data
 
 @login_required()
-def show_task(request, project_id, task_id):
+def show_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     limit_access(request.user, task.project.members)
     journals = task.journal_set.all().order_by('date')
@@ -41,7 +41,7 @@ def show_task(request, project_id, task_id):
 
 
 @login_required()
-def new_journal(request, project_id, task_id):
+def new_journal(request, task_id):
     task = Task.objects.get(id=task_id)
     limit_access(request.user, task.project.members)
     form = JournalForm(request.POST or None)
@@ -52,7 +52,7 @@ def new_journal(request, project_id, task_id):
         journal.author = request.user
         journal.save()
 
-    return redirect(show_task, project_id=project_id, task_id=task_id)
+    return redirect(show_task, task_id=task_id)
 
 
 @login_required()
@@ -66,7 +66,7 @@ def new_task(request, project_id):
         task.project = Project.objects.get(id=project_id)
         task.status = Status.objects.get(name="New")
         task.save()
-        return redirect(show_task, project_id=project_id, task_id=task.id)
+        return redirect(show_task, task_id=task.id)
 
     return render(request, 'taskmanager/edit_task.html', locals())
 
@@ -74,7 +74,7 @@ def new_task(request, project_id):
 
 
 @login_required()
-def edit_task(request, project_id, task_id):
+def edit_task(request, task_id):
     edit_flag = True
     task = Task.objects.get(id=task_id)
     limit_access(request.user, task.project.members)
@@ -83,6 +83,6 @@ def edit_task(request, project_id, task_id):
     form.fields['assignee'].queryset = project.members
     if form.is_valid():
         form.save()
-        return redirect(show_task, project_id=project_id, task_id=task_id)
+        return redirect(show_task, task_id=task_id)
 
     return render(request, 'taskmanager/edit_task.html', locals())
