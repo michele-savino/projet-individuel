@@ -41,13 +41,20 @@ class Task(models.Model):
 
     '''
     # A decommenter si on veut aussi valider les choix de l'administrateur,
-    # en faisant le filtrage directement sur le models et pas seulement du form
+    # en faisant le filtrage des dates et de la prioritè directement sur le models et pas seulement du form
     def clean(self):
         if self.priority < 1 or self.priority > 10:
             raise ValidationError('Ensure this value is in the range')
         if self.due_date < self.start_date:
             raise ValidationError('The due date cannot follow the start date')
     '''
+
+    # Pour controler si l'user selectionné est membre du projet.
+    # Je suis pas arriver à limiter les choix montrés dans la page administrateur comme j'ai fait dans la view new_task,
+    # parce que je n'ai pas access à la view de l'admininistration, mais au moins j'empeche l'admin de faire un mauvais choix
+    def clean(self):
+        if self.assignee not in self.project.members.all():
+            raise ValidationError('This user is not a member of the chosen project.')
 
     def __str__(self):
         return self.name
