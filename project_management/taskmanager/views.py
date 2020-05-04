@@ -37,6 +37,7 @@ def show_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     limit_access(request.user, task.project.members)
     journals = task.journal_set.all().order_by('date')
+    form = JournalForm
     return render(request, 'taskmanager/task.html', locals())
 
 

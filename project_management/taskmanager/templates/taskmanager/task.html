@@ -1,4 +1,5 @@
 {% extends "taskmanager/base.html" %}
+{% load crispy_forms_filters %}
 
 {% block title %}- {{ task.name }}{% endblock %}
 
@@ -58,10 +59,12 @@
             {% endfor %}
             </tbody>
         </table>
-        <form class="form-inline" method="post" action="{% url "new_journal" task_id=task_id %}">
+        <form method="post" action="{% url "new_journal" task_id=task_id %}">
             {% csrf_token %}
-            <label class="mr-2" for="entry">New journal: </label>
-            <input class="form-control mr-3" id="entry" type="text" name="entry">
+            {{ form|crispy }}
+            {# meme si je pouvais controler plus facilement l'affichage autrement, j'ai voulu utiliser le tag form pour cohérence#}
+            {#            <label class="mr-2" for="entry">New journal: </label>#}
+            {#            <input class="form-control mr-3" id="entry" type="text" name="entry">#}
             <input type="submit" class="btn btn-success" value="Save">
         </form>
     </div>

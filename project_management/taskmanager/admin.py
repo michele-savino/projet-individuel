@@ -65,7 +65,7 @@ class TaskAdmin(admin.ModelAdmin):
         }),
     )
 
-    inlines = [JournalInline]   # pour inclure les journal dans la page de la tache
+    inlines = [JournalInline]  # pour inclure les journal dans la page de la tache
 
 
 # finalement on registre le status
