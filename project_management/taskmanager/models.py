@@ -14,7 +14,7 @@ class Project(models.Model):
 
 
 class Status(models.Model):
-    name = models.CharField(max_length=30, unique=True) # je veux de status unique
+    name = models.CharField(max_length=30, unique=True)  # je veux de status unique
 
     class Meta:
         verbose_name_plural = 'status'  # pour ne pas avoir 2 s au plural
