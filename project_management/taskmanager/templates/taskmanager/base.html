@@ -26,11 +26,13 @@
         <h5>A rapid and easy way to manage your projects</h5>
     </div>
 
+    {% comment %}Pour ne pas afficher cette partie dans la page de login
+    si l'utilisateur ne s'est pas encore authentifié {% endcomment %}
     {% if user.is_authenticated %}
         <div class="container pt-3">
             <h4 class="d-inline text-left">Welcome {% if user.name %} {{ user.name }}{% else %}
                 {{ user }}{% endif %} </h4>
-            <a href="/accounts/logout" class="d-inline float-right btn btn-danger">Logout</a>
+            <a href="{% url 'logout' %}" class="d-inline float-right btn btn-danger" >Logout</a>
         </div>
     {% endif %}
 </div>

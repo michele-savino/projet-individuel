@@ -18,6 +18,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # l'app taskmanager est accessible sans taper son nom
     path('', include('taskmanager.urls')),
+
     path('accounts/', include('django.contrib.auth.urls')),
+
+    # je voulais inclure cet URL individuellement pour contrôler la redirection automatique
+    # des utilisateurs dejà connectés, mais dans ce cas j'aurai du inclure toutes les views séparément
+    # path('accounts/login', auth_views.LoginView.as_view(redirect_authenticated_user=True)),
 ]
