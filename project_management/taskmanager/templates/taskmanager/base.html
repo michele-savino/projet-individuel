@@ -38,13 +38,18 @@
         ne s'est pas encore authentifié {% endcomment %}
         <div class="container pt-3">
             <h4 class="d-inline text-left">Welcome {{ user.first_name|default:user }}</h4>
-            <a href="{% url 'logout' %}" class="d-inline float-right btn btn-danger">Logout</a>
+
+            {% comment %}LOGOUT BUTTON{% endcomment %}
+            <a href="{% url 'logout' %}" class="d-inline float-right btn btn-danger">
+                <ion-icon class="align-middle" name="log-out" style="font-size: 24px"></ion-icon>
+                <span class="align-middle">Logout</span>
+            </a>
         </div>
     {% endif %}
 </div>
 
 {% comment %}NAV BAR{% endcomment %}
-<div class="container bg-light p-2 mb-2 ">
+<div class="container p-2 mb-2">
     {% block nav %}{% endblock %}
 </div>
 

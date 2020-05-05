@@ -33,7 +33,7 @@ def show_project(request, project_id):
 
     # voir la description de cette fonction ci-dessus
     limit_access(request.user, project.members)
-    tasks = project.task_set.all().order_by('start_date', 'name')
+    tasks = project.task_set.all().order_by('-start_date', 'name')
 
     return render(request, 'taskmanager/project.html', locals())
 
@@ -86,7 +86,7 @@ def new_task(request, project_id):
 
     if form.is_valid():
         task = form.save(commit=False)
-        task.project = Project.objects.get(id=project_id)  # on attribue la tache au projet automatiquement
+        task.project = project  # on attribue la tache au projet automatiquement
         task.status = Status.objects.get(name="New")  # ligne probablement redondant avec le modèle
         task.save()
 

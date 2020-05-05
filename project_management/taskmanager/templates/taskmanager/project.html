@@ -3,7 +3,7 @@
 {% block title %}- {{ project }}{% endblock %}
 
 {% block nav %}
-    <a href="{% url 'projects_list' %}"><h5>Projects </h5></a>
+    <a href="{% url 'projects_list' %}"><h6>Projects </h6></a>
 {% endblock %}
 
 {% block content %}
@@ -45,7 +45,23 @@
     </table>
 
     {% comment %}ADD TASK BUTTON{% endcomment %}
-    <div class="text-center"><a class="btn btn-primary" href="{% url 'new_task' project_id %}">Add a task</a></div>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{% url 'new_task' project_id %}">
+            <ion-icon class="align-middle" name="add-circle" style="font-size: 24px"></ion-icon>
+            <span class="align-middle">Add task</span>
+        </a>
+    </div>
 
+{% endblock %}
 
+{% block sub-content %}
+    {% comment %}CONTENT NAME{% endcomment %}
+    <h5>Members of this project</h5>
+
+    {% comment %}MEMBER LIST{% endcomment %}
+    <ul class="list-group list-group-horizontal-md mt-3">
+        {% for member in project.members.all %}
+            <li class="list-group-item {% if member == user %}list-group-item-primary{% endif %}">{{ member }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

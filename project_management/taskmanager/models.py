@@ -54,7 +54,7 @@ class Task(models.Model):
     # parce que je n'ai pas access à la view de l'admininistration, mais au moins j'empeche l'admin de faire un mauvais choix
     def clean(self):
         if self.assignee not in self.project.members.all():
-            raise ValidationError('This user is not a member of the chosen project.')
+            raise ValidationError({'assignee': 'This user is not a member of the chosen project.'})
 
     def __str__(self):
         return self.name

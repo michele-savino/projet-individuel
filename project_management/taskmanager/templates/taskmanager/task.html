@@ -17,7 +17,8 @@
     <div>
         {% comment %}EDIT TASK BUTTON{% endcomment %}
         <a class="d-inline float-right btn btn-primary" href="{% url 'edit_task' task_id=task_id %}">
-            <ion-icon name="create-outline" style="font-size: 24px"></ion-icon>
+            <ion-icon class="align-middle" name="create" style="font-size: 24px"></ion-icon>
+            <span class="align-middle">Edit task</span>
         </a>
         {% comment %}CONTENT NAME{% endcomment %}
         <h3>{{ task.project }}</h3>
@@ -79,7 +80,10 @@
         {# meme si je pouvais controler plus facilement l'affichage autrement, j'ai voulu utiliser le tag form pour cohérence#}
         {#            <label class="mr-2" for="entry">New journal: </label>#}
         {#            <input class="form-control mr-3" id="entry" type="text" name="entry">#}
-        <input type="submit" class="btn btn-success" value="Save">
+        <button type="submit" class="btn btn-success">
+            <ion-icon class="align-middle" name="save" style="font-size: 24px"></ion-icon>
+            <span class="align-middle">Save</span>
+        </button>
     </form>
 
 {% endblock %}

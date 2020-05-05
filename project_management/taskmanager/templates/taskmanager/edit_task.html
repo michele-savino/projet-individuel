@@ -16,7 +16,7 @@
 
     {% comment %}FORM{% endcomment %}
     {% comment %}L'action du form dèpend de la fonction: modification ou creation{% endcomment %}
-    <form method="post" action="{% if edit_flag %}{% url 'edit_task' task_id=task_id %} {% else %} {% url 'new_task' project_id %}{% endif %}">
+    <form method="post" action="{% if edit_flag %}{% url 'edit_task' task_id=task_id %} {% else %} {% url 'new_task' project_id=project.id %}{% endif %}">
         {% comment %}Tous les fieds du form sont gerer individuellement pour personalizer l'affichage{% endcomment %}
         {% csrf_token %}
         {{ form.name|as_crispy_field }}
@@ -48,7 +48,10 @@
         </div>
         {{ form.description|as_crispy_field }}
         {{ form.description.errors|as_crispy_errors }}
-        <input type="submit" class="btn btn-success" value="Save">
+        <button type="submit" class="btn btn-success">
+            <ion-icon class="align-middle" name="save" style="font-size: 24px"></ion-icon>
+            <span class="align-middle">Save</span>
+        </button>
     </form>
 
 {% endblock %}
