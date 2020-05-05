@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.text import Truncator
 
+from .forms import TaskFormAdmin
 from .models import Project, Task, Status, Journal
 
 
@@ -45,6 +46,7 @@ class JournalInline(admin.TabularInline):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
+    form = TaskFormAdmin
     list_display = ['name', 'project', 'assignee', 'status', 'start_date', 'due_date']
     list_filter = ['project', 'assignee', 'status', 'priority']
     date_hierarchy = 'start_date'
