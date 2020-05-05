@@ -128,5 +128,5 @@ LOGIN_REDIRECT_URL = '/projects'
 
 LOGOUT_REDIRECT_URL = '/accounts/login'
 
-
+# pour faire le render des forms en Bootstrap 4
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

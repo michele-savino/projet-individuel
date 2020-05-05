@@ -33,7 +33,7 @@ def show_project(request, project_id):
 
     # voir la description de cette fonction ci-dessus
     limit_access(request.user, project.members)
-    tasks = project.task_set.all().order_by('-start_date', 'name')
+    tasks = project.task_set.all().order_by('start_date', 'name')
 
     return render(request, 'taskmanager/project.html', locals())
 
